@@ -1,21 +1,14 @@
-FROM maven:3.5-jdk-8-alpine
-
-WORKDIR /swagger-petstore
-COPY . /swagger-petstore
-
-RUN mvn clean install
-
+# Use an OpenJDK 8 runtime as a base image
 FROM openjdk:8-jre-alpine
 
-WORKDIR /swagger-petstore
+# Set the working directory inside the container
+WORKDIR /app
 
-COPY --from=0 /swagger-petstore/target/lib/jetty-runner.jar /swagger-petstore/jetty-runner.jar
-COPY --from=0 /swagger-petstore/target/*.war /swagger-petstore/server.war
-COPY src/main/resources/openapi.yaml /swagger-petstore/openapi.yaml
-COPY inflector.yaml /swagger-petstore/inflector.yaml
+# Copy the JAR file into the container at the specified path
+COPY target/demo-0.0.1-SNAPSHOT.jar /app/demo.jar
 
+# Expose the port that your Spring Boot application will run on
 EXPOSE 8080
 
-USER 10014
-
-CMD ["java", "-jar", "-DswaggerUrl=openapi.yaml", "/swagger-petstore/jetty-runner.jar", "/swagger-petstore/server.war"]
+# Specify the command to run on container startup
+CMD ["java", "-jar", "demo.jar"]
