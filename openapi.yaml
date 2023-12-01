@@ -1,0 +1,32 @@
+openapi: 3.0.0
+info:
+  title: Your API
+  description: Description of your API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /idp/.well-known/openid-configuration/adrjwks:
+    get:
+      summary: Get data from the server
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Sample response
+
+  /idp/.well-known/openid-configuration/jwks:
+    get:
+      summary: Get data from the server
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              example:
+                message: Sample response
